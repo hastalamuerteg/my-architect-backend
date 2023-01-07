@@ -1,6 +1,6 @@
 import joi from 'joi';
 
-const ListArchitectsUseCaseSchema = joi.object({
+const listArchitectsSchema = joi.object({
   customerId: joi.string()
     .guid({
       version: [
@@ -10,4 +10,4 @@ const ListArchitectsUseCaseSchema = joi.object({
     }),
 });
 
-export { ListArchitectsUseCaseSchema };
+export { listArchitectsSchema };

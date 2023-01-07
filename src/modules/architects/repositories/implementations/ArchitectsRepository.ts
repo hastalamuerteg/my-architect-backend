@@ -1,18 +1,18 @@
 import { injectable } from 'inversify';
 
 import { PrismaDatabaseError } from '@errors/PrismaDatabaseError';
-import { ICreateCustomerDTO } from '@modules/customers/dtos/ICreateCustomerDTO';
 import { PrismaClientInstance } from '@shared/orm/PrismaClientInstance/PrismaClientInstance';
 
-import { ICustomersRepository } from '../ICustomersRepository';
+import { IArchitectsRepository } from '../IArchitectsRepository';
+import { ICreateArchitectDTO } from '@modules/architects/dtos/ICreateArchitectDTO';
 
 @injectable()
-class CustomersRepository implements ICustomersRepository {
+class ArchitectsRepository implements IArchitectsRepository {
   async create({
     firstName, lastName, age, gender, phone, email, password,
-  }: ICreateCustomerDTO) {
+  }: ICreateArchitectDTO) {
     try {
-      await PrismaClientInstance.getInstance().customer.create({
+      await PrismaClientInstance.getInstance().architect.create({
         data: {
           firstName, lastName, age, gender, phone, email, password,
         },
@@ -29,14 +29,14 @@ class CustomersRepository implements ICustomersRepository {
 
   async findByEmail(email: string) {
     try {
-      const customer = await PrismaClientInstance.getInstance().customer.findFirst({
+      const architect = await PrismaClientInstance.getInstance().architect.findFirst({
         where: {
           email: {
             equals: email,
           },
         },
       });
-      return customer;
+      return architect;
     } catch (error) {
       throw new PrismaDatabaseError({
         message: error.message,
@@ -49,13 +49,37 @@ class CustomersRepository implements ICustomersRepository {
 
   async findById(id: string) {
     try {
-      const customer = await PrismaClientInstance.getInstance().customer.findUnique({
+      const architect = await PrismaClientInstance.getInstance().architect.findUnique({
         where: {
           id,
         },
       });
 
-      return customer;
+      return architect;
+    } catch (error) {
+      throw new PrismaDatabaseError({
+        message: error.message,
+        code: error.code,
+        statusCode: error.statusCode ?? 400,
+        meta: error.meta.field_name,
+      });
+    }
+  }
+
+  async listArchitects() {
+    try {
+      const architects = await PrismaClientInstance.getInstance().architect.findMany();
+      const list = architects.map((architect) => {
+        return {
+          id: architect.id,
+          firstName: architect.firstName,
+          lastName: architect.lastName,
+          gender: architect.gender,
+          phone: architect.phone,
+          email: architect.email,
+        }
+      })
+      return list;
     } catch (error) {
       throw new PrismaDatabaseError({
         message: error.message,
@@ -67,4 +91,4 @@ class CustomersRepository implements ICustomersRepository {
   }
 }
 
-export { CustomersRepository };
+export { ArchitectsRepository };
