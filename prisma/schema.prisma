@@ -53,4 +53,5 @@ model serviceRequests {
   receiverId  Architect @relation(fields: [architectId], references: [id])
   customerId  String
   architectId String
+  active      Boolean   @default(true)
 }

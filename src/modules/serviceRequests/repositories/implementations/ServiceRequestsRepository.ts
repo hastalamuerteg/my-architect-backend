@@ -82,6 +82,26 @@ class ServiceRequestsRepository implements IServiceRequestsRepository {
       });
     }
   }
+
+  async delete(serviceRequestId: string) {
+    try {
+      await PrismaClientInstance.getInstance().serviceRequests.update({
+        where: {
+          id: serviceRequestId
+        },
+        data: {
+          active: false
+        }
+      })
+    } catch (error) {
+      throw new PrismaDatabaseError({
+        message: error.message,
+        code: error.code,
+        statusCode: error.statusCode ?? 400,
+        meta: error.meta.field_name,
+      });
+    }
+  }
 }
 
 export { ServiceRequestsRepository }
