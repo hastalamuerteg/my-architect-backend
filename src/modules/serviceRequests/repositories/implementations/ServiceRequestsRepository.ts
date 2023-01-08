@@ -171,7 +171,10 @@ class ServiceRequestsRepository implements IServiceRequestsRepository {
     try {
       const list = await PrismaClientInstance.getInstance().serviceRequests.findMany({
         where: {
-          customerId
+          customerId,
+          AND: {
+            active: true
+          }
         },
       })
       return list
@@ -189,7 +192,10 @@ class ServiceRequestsRepository implements IServiceRequestsRepository {
     try {
       const list = await PrismaClientInstance.getInstance().serviceRequests.findMany({
         where: {
-          architectId
+          architectId,
+          AND: {
+            active: true
+          }
         },
       })
       return list
