@@ -42,6 +42,46 @@ class ServiceRequestsRepository implements IServiceRequestsRepository {
       });
     }
   }
+
+  async findById(serviceRequestId: string) {
+    try {
+      const serviceRequest = await PrismaClientInstance.getInstance().serviceRequests.findFirst({
+        where: {
+          id: serviceRequestId
+        }
+      })
+      return serviceRequest;
+    } catch (error) {
+      throw new PrismaDatabaseError({
+        message: error.message,
+        code: error.code,
+        statusCode: error.statusCode ?? 400,
+        meta: error.meta.field_name,
+      });
+    }
+  }
+
+  async update(title: string, description: string, serviceRequestId: string) {
+    try {
+      const serviceRequest = await PrismaClientInstance.getInstance().serviceRequests.update({
+        where: {
+          id: serviceRequestId
+        },
+        data: {
+          title,
+          description
+        }
+      })
+      return serviceRequest;
+    } catch (error) {
+      throw new PrismaDatabaseError({
+        message: error.message,
+        code: error.code,
+        statusCode: error.statusCode ?? 400,
+        meta: error.meta.field_name,
+      });
+    }
+  }
 }
 
 export { ServiceRequestsRepository }
