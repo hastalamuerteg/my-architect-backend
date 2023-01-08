@@ -41,17 +41,17 @@ model Architect {
 }
 
 model serviceRequests {
-  id          String    @id @default(uuid())
-  title       String
-  description String
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  requested   Boolean   @default(true)
-  accepted    Boolean   @default(false)
-  refused     Boolean   @default(false)
-  requesterId Customer  @relation(fields: [customerId], references: [id])
-  receiverId  Architect @relation(fields: [architectId], references: [id])
-  customerId  String
-  architectId String
-  active      Boolean   @default(true)
+  id                String    @id @default(uuid())
+  title             String
+  description       String
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  requested         Boolean   @default(true)
+  accepted          Boolean   @default(false)
+  refused           Boolean   @default(false)
+  requesterCustomer Customer  @relation(fields: [customerId], references: [id])
+  receiverArchitect Architect @relation(fields: [architectId], references: [id])
+  customerId        String
+  architectId       String
+  active            Boolean   @default(true)
 }
