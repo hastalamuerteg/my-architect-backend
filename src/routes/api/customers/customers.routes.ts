@@ -5,6 +5,7 @@ const customerRoutes = Router();
 
 const createCustomerController = new CreateCustomerController()
 
+// POST routes
 customerRoutes.post('/', createCustomerController.handle)
 
 export { customerRoutes }
