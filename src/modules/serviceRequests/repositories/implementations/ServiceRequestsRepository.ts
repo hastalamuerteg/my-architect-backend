@@ -8,12 +8,12 @@ import { PrismaDatabaseError } from '@errors/PrismaDatabaseError';
 @injectable()
 class ServiceRequestsRepository implements IServiceRequestsRepository {
   async create({
-    title, description, customerId, architectId, requested, accepted, refused
+    title, description, customerId, architectId
   }: ICreateServiceRequestDTO) {
     try {
       await PrismaClientInstance.getInstance().serviceRequests.create({
         data: {
-          title, description, customerId, architectId, requested, accepted, refused
+          title, description, customerId, architectId
         }
       })
     } catch (error) {
@@ -157,6 +157,48 @@ class ServiceRequestsRepository implements IServiceRequestsRepository {
           refused: true
         }
       })
+    } catch (error) {
+      throw new PrismaDatabaseError({
+        message: error.message,
+        code: error.code,
+        statusCode: error.statusCode ?? 400,
+        meta: error.meta.field_name,
+      });
+    }
+  }
+
+  async listByCustomer(customerId: string) {
+    try {
+      const list = await PrismaClientInstance.getInstance().serviceRequests.findMany({
+        where: {
+          customerId,
+          AND: {
+            active: true
+          }
+        },
+      })
+      return list
+    } catch (error) {
+      throw new PrismaDatabaseError({
+        message: error.message,
+        code: error.code,
+        statusCode: error.statusCode ?? 400,
+        meta: error.meta.field_name,
+      });
+    }
+  }
+
+  async listByArchitect(architectId: string) {
+    try {
+      const list = await PrismaClientInstance.getInstance().serviceRequests.findMany({
+        where: {
+          architectId,
+          AND: {
+            active: true
+          }
+        },
+      })
+      return list
     } catch (error) {
       throw new PrismaDatabaseError({
         message: error.message,

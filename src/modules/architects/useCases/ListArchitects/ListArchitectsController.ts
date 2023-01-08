@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 
 import { container } from '@vendors/inversifyDI/inversify.config';
 import { ListArchitectsUseCase } from './ListArchitectsUseCase';
-import { listArchitectsSchema } from '@vendors/joi-validation/schemas/architects/ListArchitectsSchema';
+import { listArchitectsSchema } from '@vendors/joi-validation/schemas/architects/listArchitectsSchema';
 
 class ListArchitectsController {
   async handle(request: Request, response: Response, next: NextFunction) {
