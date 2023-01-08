@@ -10,9 +10,6 @@ interface IRequest {
   description: string
   customerId: string
   architectId: string
-  requested?: boolean
-  accepted?: boolean
-  refused?: boolean
 }
 
 @injectable()
@@ -23,7 +20,7 @@ class CreateServiceRequestUseCase {
     @inject(TYPES.ServiceRequestsRepository) private serviceRequestsRepository: ServiceRequestsRepository
   ) { }
   async execute({
-    title, description, customerId, architectId, requested, accepted, refused
+    title, description, customerId, architectId
   }: IRequest) {
     const isValidCustomer = await this.customersRepository.findById(customerId)
     if (!isValidCustomer) throw new BaseError({ statusCode: 400, message: 'Invalid customer' })
@@ -35,7 +32,7 @@ class CreateServiceRequestUseCase {
     if (doesServiceRequestAlreadyExist) throw new BaseError({ statusCode: 400, message: 'This service request already exist.' })
 
     await this.serviceRequestsRepository.create({
-      title, description, customerId, architectId, requested, accepted, refused
+      title, description, customerId, architectId
     })
   }
 }
