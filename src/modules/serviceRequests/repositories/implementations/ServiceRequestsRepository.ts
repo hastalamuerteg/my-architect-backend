@@ -61,6 +61,27 @@ class ServiceRequestsRepository implements IServiceRequestsRepository {
     }
   }
 
+  async findByOwnerArchitect(serviceRequestId: string, architectId: string) {
+    try {
+      const serviceRequest = await PrismaClientInstance.getInstance().serviceRequests.findFirst({
+        where: {
+          id: serviceRequestId,
+          AND: {
+            architectId
+          }
+        },
+      })
+      return serviceRequest;
+    } catch (error) {
+      throw new PrismaDatabaseError({
+        message: error.message,
+        code: error.code,
+        statusCode: error.statusCode ?? 400,
+        meta: error.meta.field_name,
+      });
+    }
+  }
+
   async update(title: string, description: string, serviceRequestId: string) {
     try {
       const serviceRequest = await PrismaClientInstance.getInstance().serviceRequests.update({
@@ -91,6 +112,49 @@ class ServiceRequestsRepository implements IServiceRequestsRepository {
         },
         data: {
           active: false
+        }
+      })
+    } catch (error) {
+      throw new PrismaDatabaseError({
+        message: error.message,
+        code: error.code,
+        statusCode: error.statusCode ?? 400,
+        meta: error.meta.field_name,
+      });
+    }
+  }
+
+  async accept(serviceRequestId: string) {
+    try {
+      await PrismaClientInstance.getInstance().serviceRequests.update({
+        where: {
+          id: serviceRequestId,
+        },
+        data: {
+          requested: false,
+          accepted: true
+        }
+      })
+    } catch (error) {
+      throw new PrismaDatabaseError({
+        message: error.message,
+        code: error.code,
+        statusCode: error.statusCode ?? 400,
+        meta: error.meta.field_name,
+      });
+    }
+  }
+
+  async refuse(serviceRequestId: string) {
+    try {
+      await PrismaClientInstance.getInstance().serviceRequests.update({
+        where: {
+          id: serviceRequestId
+        },
+        data: {
+          requested: false,
+          accepted: false,
+          refused: true
         }
       })
     } catch (error) {

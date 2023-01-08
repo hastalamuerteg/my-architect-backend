@@ -23,9 +23,6 @@ const createServiceRequestSchema = joi.object({
         'uuidv5',
       ],
     }),
-  requested: joi.boolean(),
-  accepted: joi.boolean(),
-  refused: joi.boolean(),
 });
 
 export { createServiceRequestSchema };
