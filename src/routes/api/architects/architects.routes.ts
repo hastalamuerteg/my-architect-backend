@@ -7,7 +7,10 @@ const architectRouter = Router();
 const listArchitectsController = new ListArchitectsController()
 const createArchitectController = new CreateArchitectController()
 
-architectRouter.post('/', createArchitectController.handle)
+// GET routes
 architectRouter.get('/:customerId', listArchitectsController.handle)
+
+// POST routes
+architectRouter.post('/', createArchitectController.handle)
 
 export { architectRouter }

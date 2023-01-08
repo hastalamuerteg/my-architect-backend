@@ -10,6 +10,8 @@ interface IServiceRequestsRepository {
   delete: (serviceRequestId: string) => Promise<void>
   accept: (serviceRequestId: string) => Promise<void>
   refuse: (serviceRequestId: string) => Promise<void>
+  listByCustomer: (customerId: string) => Promise<serviceRequests[]>
+  listByArchitect: (architectId: string) => Promise<serviceRequests[]>
 }
 
 export { IServiceRequestsRepository }
