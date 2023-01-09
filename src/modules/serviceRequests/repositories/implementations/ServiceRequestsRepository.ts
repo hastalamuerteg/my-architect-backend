@@ -132,6 +132,7 @@ class ServiceRequestsRepository implements IServiceRequestsRepository {
         },
         data: {
           requested: false,
+          refused: false,
           accepted: true
         }
       })
