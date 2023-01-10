@@ -9,9 +9,8 @@ DATABASE_URL="file:./dev.db"
 ### Comandos
 
 - yarn (instalação de dependências)
-- yarn dev (para iniciar o projeto)
 - yarn prisma migrate dev (para recuperar o banco local)
-
+- yarn dev (para subir o projeto)
 
 O Arquivo server.ts possui as seguintes configurações de CORS
 
