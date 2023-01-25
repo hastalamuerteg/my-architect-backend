@@ -3,11 +3,10 @@ import joi from 'joi';
 const createServiceRequestSchema = joi.object({
   title: joi.string()
     .min(3)
-    .max(20)
+    .max(30)
     .required(),
   description: joi.string()
     .min(5)
-    .max(30)
     .required(),
   customerId: joi.string()
     .guid({
